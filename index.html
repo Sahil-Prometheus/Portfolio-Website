@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>
+(function () {
+  try {
+    var match = document.cookie.match('(?:^|; )sg-theme=([^;]+)');
+    var stored = match ? decodeURIComponent(match[1]) : null;
+    var theme = (stored === 'light' || stored === 'dark')
+      ? stored
+      : ((window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sahil Gohel — Analytics & AI Strategy</title>
+<meta name="description" content="Sahil Gohel, Analytics & AI Consultant based in London. Principal Consultant at Kantar. I turn messy data into value businesses can act on." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0A0A'/%3E%3Ctext x='16' y='22.5' font-family='Georgia, Cambria, Times, serif' font-style='italic' font-weight='700' font-size='16' text-anchor='middle' letter-spacing='-1' fill='%23FFFFFF'%3ES%3Ctspan fill='%23FF3333'%3EG%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
+<a href="#main" class="sr-only">Skip to content</a>
+
+<header class="site-header" id="site-header">
+  <a href="#top" class="logo" data-cursor="text" aria-label="Sahil Gohel home">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" class="logo-mark">
+      <rect width="32" height="32" rx="7" fill="var(--card)" stroke="var(--border)"/>
+      <text x="16" y="22.5" class="logo-mark-text" text-anchor="middle">S<tspan fill="var(--accent-2)">G</tspan></text>
+    </svg>
+    Sahil Gohel.
+  </a>
+  <div class="header-right">
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#works" data-cursor="text">Works</a>
+      <a href="#info" data-cursor="text">Info</a>
+      <a href="#contact" data-cursor="text">Contact</a>
+    </nav>
+    <button type="button" class="theme-toggle" id="theme-toggle" data-cursor="hover" aria-label="Switch to light theme" aria-pressed="false">
+      <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<nav class="section-nav" id="section-nav" aria-label="Section index">
+  <a href="#top" class="section-nav-item is-active" data-section="top" data-cursor="text">
+    <span class="section-nav-dot" aria-hidden="true"></span>
+    <span class="section-nav-label">Home</span>
+  </a>
+  <a href="#works" class="section-nav-item" data-section="works" data-cursor="text">
+    <span class="section-nav-dot" aria-hidden="true"></span>
+    <span class="section-nav-label">Work</span>
+  </a>
+  <a href="#info" class="section-nav-item" data-section="info" data-cursor="text">
+    <span class="section-nav-dot" aria-hidden="true"></span>
+    <span class="section-nav-label">Info</span>
+  </a>
+  <a href="#contact" class="section-nav-item" data-section="contact" data-cursor="text">
+    <span class="section-nav-dot" aria-hidden="true"></span>
+    <span class="section-nav-label">Contact</span>
+  </a>
+</nav>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-zoom" id="hero-zoom">
+      <div class="hero-bg">
+        <div class="hero-glow"></div>
+        <div class="hero-photo-wrap" id="hero-photo-wrap">
+          <img class="hero-photo" id="hero-photo" src="./assets/hero-sahil.jpg" alt="Portrait of Sahil Gohel, cinematic red-lit lighting" />
+        </div>
+      </div>
+
+      <div class="wrap hero-top">
+        <p class="hero-label" id="hero-label">Sahil Gohel, Analytics &amp; AI Consultant</p>
+      </div>
+
+      <div class="wrap hero-middle">
+        <h1 class="hero-name" id="hero-name">Sahil Gohel.</h1>
+        <p class="hero-tagline" id="hero-tagline">I turn messy data<br>into value businesses can act on.</p>
+        <p class="hero-statement" id="hero-statement">Basically, I make data useful.</p>
+      </div>
+
+      <div class="wrap hero-bottom">
+        <div class="hero-version">
+          <span aria-hidden="true">&rarr;</span>
+          <span>V2.0</span>
+        </div>
+        <div class="hero-social">
+          <a href="https://github.com/gohelsahil" target="_blank" rel="noopener noreferrer" data-cursor="text">GitHub</a>
+          <span class="divider">/</span>
+          <a href="https://www.linkedin.com/in/gohelsahil" target="_blank" rel="noopener noreferrer" data-cursor="text">LinkedIn</a>
+          <span class="divider">/</span>
+          <a href="mailto:sahilgohel91@gmail.com" data-cursor="text">Email</a>
+        </div>
+        <div class="hero-badge">
+          <strong>Principal Consultant &middot; Kantar</strong>
+          <span class="hero-location">London, UK</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SELECTED WORKS ============ -->
+  <section id="works">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-eyebrow">Selected Works</p>
+          <h2 class="section-title">Case studies in <em>turning data into decisions.</em></h2>
+        </div>
+        <p class="section-sub">Nine years advising Fortune 50 and global enterprises across retail, FMCG, technology, and financial services.</p>
+      </div>
+    </div>
+
+    <!-- ---- Circular project wheel: scroll or drag to revolve ---- -->
+    <div class="work-wheel" id="work-wheel">
+      <p class="work-wheel-hint" id="work-wheel-hint"><span aria-hidden="true">&#8596;</span> Scroll or drag to explore</p>
+      <div class="work-wheel-stage" id="work-wheel-stage">
+
+        <div class="ww-item" data-index="0">
+          <a class="ww-card" href="#work-1" data-cursor="hover" aria-label="Conversational AI for brand insights — see project">
+            <div class="ww-thumb"><img src="./assets/work-1-conversational-ai.png" alt="" loading="lazy" width="140" height="100"></div>
+            <div class="ww-body">
+              <span class="ww-index">01</span>
+              <h3 class="ww-title">Conversational AI for brand insights</h3>
+              <p class="ww-desc">Time-to-insight cut from days to hours.</p>
+              <span class="ww-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="ww-item" data-index="1">
+          <a class="ww-card" href="#work-2" data-cursor="hover" aria-label="Connected insights ecosystem — see project">
+            <div class="ww-thumb"><img src="./assets/work-2-connected-insights.png" alt="" loading="lazy" width="140" height="100"></div>
+            <div class="ww-body">
+              <span class="ww-index">02</span>
+              <h3 class="ww-title">Connected insights ecosystem</h3>
+              <p class="ww-desc">$250K in annual cost savings.</p>
+              <span class="ww-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="ww-item" data-index="2">
+          <a class="ww-card" href="#work-3" data-cursor="hover" aria-label="Hyper-personalised SKU recommendations — see project">
+            <div class="ww-thumb"><img src="./assets/work-3-sku-recommendations.png" alt="" loading="lazy" width="140" height="100"></div>
+            <div class="ww-body">
+              <span class="ww-index">03</span>
+              <h3 class="ww-title">Hyper-personalised SKU recommendations</h3>
+              <p class="ww-desc">Drove measurable retailer uptake.</p>
+              <span class="ww-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="ww-item" data-index="3">
+          <a class="ww-card" href="#work-4" data-cursor="hover" aria-label="Marketing mix models for luxury beauty — see project">
+            <div class="ww-thumb"><img src="./assets/work-4-marketing-mix.png" alt="" loading="lazy" width="140" height="100"></div>
+            <div class="ww-body">
+              <span class="ww-index">04</span>
+              <h3 class="ww-title">Marketing mix models for luxury beauty</h3>
+              <p class="ww-desc">Optimised multi-channel marketing spend.</p>
+              <span class="ww-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="ww-item" data-index="4">
+          <a class="ww-card" href="#work-5" data-cursor="hover" aria-label="NLP-driven NPS analysis — see project">
+            <div class="ww-thumb"><img src="./assets/work-5-nlp-nps.png" alt="" loading="lazy" width="140" height="100"></div>
+            <div class="ww-body">
+              <span class="ww-index">05</span>
+              <h3 class="ww-title">NLP-driven NPS analysis</h3>
+              <p class="ww-desc">Identified the drivers behind NPS movement.</p>
+              <span class="ww-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="works-list" id="works-list">
+
+        <article class="work-card reveal" id="work-1" data-cursor="hover" tabindex="0">
+          <div class="work-meta">
+            <span class="work-index">01</span>
+            <h3 class="work-name">Conversational AI for brand insights</h3>
+            <span class="work-client">Global FMCG Leader &middot; Implementation Lead</span>
+          </div>
+          <p class="work-desc"><strong>Time-to-insight cut from days to hours.</strong> Rolled out a conversational AI pilot integrating brand tracker, panel, ad spend, and sales data — letting insights teams query years of data in plain language instead of waiting in an analyst queue. Led the full cycle: demos, client feedback loops, iterative product improvement. Tools: LLM APIs, RAG, Figma.</p>
+          <div class="work-visual-col">
+            <div class="work-thumb"><img src="./assets/work-1-conversational-ai.png" alt="Abstract dark conversational AI dashboard mockup" loading="lazy" width="140" height="100"></div>
+            <span class="work-year">2025</span>
+            <span class="work-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="work-card reveal" id="work-2" data-cursor="hover" tabindex="0">
+          <div class="work-meta">
+            <span class="work-index">02</span>
+            <h3 class="work-name">Connected insights ecosystem</h3>
+            <span class="work-client">Fortune 50 Client &middot; Analytics Engagement Lead</span>
+          </div>
+          <p class="work-desc"><strong>$250K in annual cost savings.</strong> Designed a unified decision layer connecting brand tracker, consumer panel, Nielsen, ad spend, and CSAT data into one set of dashboards — replacing fragmented, duplicated reporting with a single view.</p>
+          <div class="work-visual-col">
+            <div class="work-thumb"><img src="./assets/work-2-connected-insights.png" alt="Abstract dark network graph of connected data sources" loading="lazy" width="140" height="100"></div>
+            <span class="work-year">2024</span>
+            <span class="work-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="work-card reveal" id="work-3" data-cursor="hover" tabindex="0">
+          <div class="work-meta">
+            <span class="work-index">03</span>
+            <h3 class="work-name">Hyper-personalised SKU recommendations</h3>
+            <span class="work-client">Global FMCG Giant</span>
+          </div>
+          <p class="work-desc"><strong>Drove measurable retailer uptake.</strong> Built SKU-level recommendation models personalised to individual retailers, turning portfolio data into store-ready sell-in stories.</p>
+          <div class="work-visual-col">
+            <div class="work-thumb"><img src="./assets/work-3-sku-recommendations.png" alt="Abstract dark SKU recommendation dashboard mockup" loading="lazy" width="140" height="100"></div>
+            <span class="work-year">2022</span>
+            <span class="work-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="work-card reveal" id="work-4" data-cursor="hover" tabindex="0">
+          <div class="work-meta">
+            <span class="work-index">04</span>
+            <h3 class="work-name">Marketing mix models for luxury beauty</h3>
+            <span class="work-client">Luxury Beauty Retailer</span>
+          </div>
+          <p class="work-desc"><strong>Optimised multi-channel marketing spend.</strong> Developed MMM models quantifying the revenue contribution of each channel, giving the brand an evidence base for budget allocation.</p>
+          <div class="work-visual-col">
+            <div class="work-thumb"><img src="./assets/work-4-marketing-mix.png" alt="Abstract dark marketing mix model chart mockup" loading="lazy" width="140" height="100"></div>
+            <span class="work-year">2020</span>
+            <span class="work-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="work-card reveal" id="work-5" data-cursor="hover" tabindex="0">
+          <div class="work-meta">
+            <span class="work-index">05</span>
+            <h3 class="work-name">NLP-driven NPS analysis</h3>
+            <span class="work-client">Leading Life Insurance Provider</span>
+          </div>
+          <p class="work-desc"><strong>Identified the drivers behind NPS movement</strong> from open-text feedback at scale. Designed NLP analysis over customer verbatims to isolate what actually moved satisfaction — beyond what structured survey data could show.</p>
+          <div class="work-visual-col">
+            <div class="work-thumb"><img src="./assets/work-5-nlp-nps.png" alt="Abstract dark NLP sentiment analysis dashboard mockup" loading="lazy" width="140" height="100"></div>
+            <span class="work-year">2019</span>
+            <span class="work-link">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATEMENT / ABOUT ============ -->
+  <section class="statement" id="info">
+    <div class="wrap">
+      <div class="statement-grid">
+        <div class="reveal">
+          <p class="statement-lead">Basically, I make <em>data useful.</em></p>
+          <div class="statement-body">
+            <p>I'm Sahil — an analytics and AI consultant based in London. For the last nine years I've advised Fortune 50 and global enterprises across retail, FMCG, technology, and financial services, helping them turn data into decisions.</p>
+            <p>My work sits between the technical and the commercial: building conversational AI and analytics tools, leading cross-functional teams of 25+, and translating complex data into things senior stakeholders actually act on. Every engagement I've led at Kantar has renewed — a stat I'm prouder of than any dashboard.</p>
+          </div>
+        </div>
+
+        <div class="info-card reveal">
+          <div class="info-row">
+            <span class="label">Based</span>
+            <span class="value">London, UK</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Role</span>
+            <span class="value">Principal Consultant at Kantar</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Languages</span>
+            <span class="value">English &middot; Hindi &middot; Gujarati &middot; French</span>
+          </div>
+          <a class="resume-btn" href="./assets/Sahil-Gohel_Resume_v3.pdf" target="_blank" rel="noopener noreferrer" data-cursor="hover">
+            Download resume (PDF)
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-eyebrow">Skills</p>
+          <h2 class="section-title">Where data, AI, &amp; strategy meet.</h2>
+        </div>
+        <p class="section-sub">Analytics &amp; AI consultant based in London, working at the intersection of data, AI, and business strategy.</p>
+      </div>
+
+      <div class="skills-cats reveal">
+        <div>
+          <p class="skills-cat-title">AI &amp; Machine Learning</p>
+          <div class="pill-group">
+            <span class="pill" data-cursor="hover">LLM APIs</span>
+            <span class="pill" data-cursor="hover">RAG pipelines</span>
+            <span class="pill" data-cursor="hover">Conversational AI</span>
+            <span class="pill" data-cursor="hover">NLP</span>
+            <span class="pill" data-cursor="hover">Personalisation</span>
+            <span class="pill" data-cursor="hover">ML implementation</span>
+          </div>
+        </div>
+        <div>
+          <p class="skills-cat-title">Analytics &amp; Insight</p>
+          <div class="pill-group">
+            <span class="pill" data-cursor="hover">Brand tracking</span>
+            <span class="pill" data-cursor="hover">Marketing mix modelling</span>
+            <span class="pill" data-cursor="hover">Demand forecasting</span>
+            <span class="pill" data-cursor="hover">NPS analytics</span>
+            <span class="pill" data-cursor="hover">Dashboard design</span>
+            <span class="pill" data-cursor="hover">BI automation</span>
+          </div>
+        </div>
+        <div>
+          <p class="skills-cat-title">Consulting &amp; Leadership</p>
+          <div class="pill-group">
+            <span class="pill" data-cursor="hover">Client advisory</span>
+            <span class="pill" data-cursor="hover">Stakeholder management</span>
+            <span class="pill" data-cursor="hover">Proposal development</span>
+            <span class="pill" data-cursor="hover">Cross-functional team leadership</span>
+          </div>
+        </div>
+        <div>
+          <p class="skills-cat-title">Design &amp; Build</p>
+          <div class="pill-group">
+            <span class="pill" data-cursor="hover">Front-end design</span>
+            <span class="pill" data-cursor="hover">UI/UX</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE & CREDENTIALS ============ -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-eyebrow">Awards &amp; Misc</p>
+          <h2 class="section-title">Experience &amp; credentials.</h2>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="subsection-label">Experience</p>
+        <div class="rows-table">
+          <div class="row-item">
+            <p class="row-title">Kantar <span>— Principal Consultant, Analytics UK</span></p>
+            <p class="row-org">Conversational AI, BI automation, new-logo growth</p>
+            <span class="row-date">2023&ndash;Now</span>
+          </div>
+          <div class="row-item">
+            <p class="row-title">Kantar <span>— Director, Data Strategy &amp; Engineering</span></p>
+            <p class="row-org">Fortune 50 data strategy, pricing, resourcing</p>
+            <span class="row-date">2021&ndash;23</span>
+          </div>
+          <div class="row-item">
+            <p class="row-title">Cartesian Consulting <span>— Consultant</span></p>
+            <p class="row-org">Multi-billion-dollar accounts: NPS, forecasting, personalisation</p>
+            <span class="row-date">2017&ndash;21</span>
+          </div>
+          <div class="row-item">
+            <p class="row-title">IIM Rohtak <span>— MBA</span></p>
+            <p class="row-org">&mdash;</p>
+            <span class="row-date">2015&ndash;17</span>
+          </div>
+          <div class="row-item">
+            <p class="row-title">University of Ljubljana <span>— B.Sc. Business Economics</span></p>
+            <p class="row-org">&mdash;</p>
+            <span class="row-date">2011&ndash;14</span>
+          </div>
+        </div>
+
+        <p class="subsection-label">Credentials</p>
+        <div class="rows-table">
+          <div class="row-item">
+            <p class="row-title">Harvard Business School <span>— HBX Core (Pre-MBA Certificate)</span></p>
+            <p class="row-org">&mdash;</p>
+            <span class="row-date">2015</span>
+          </div>
+          <div class="row-item">
+            <p class="row-title">London School of Economics <span>— Big Data Research</span></p>
+            <p class="row-org">&mdash;</p>
+            <span class="row-date">2015</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED SHOWCASE ============ -->
+  <section class="showcase" id="showcase">
+    <div class="wrap showcase-inner reveal">
+      <p class="showcase-label">01 &middot; 2025 Preview</p>
+      <a class="showcase-media" href="#works" data-cursor="hover" aria-label="See conversational AI project">
+        <img src="./assets/showcase-laptop-mockup.png" alt="Dark laptop mockup displaying a conversational AI analytics dashboard, moody red-lit studio photography" loading="lazy">
+      </a>
+      <div class="showcase-footer">
+        <p class="showcase-title">Conversational AI for brand insights</p>
+        <a class="work-link" href="#works" data-cursor="hover">See project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="wrap reveal">
+      <p class="contact-avail">Working with global brands on analytics and AI. Open to interesting problems.</p>
+      <a class="contact-email" href="mailto:sahilgohel91@gmail.com" data-cursor="text">sahilgohel91@gmail.com</a>
+      <div class="contact-links">
+        <a href="https://github.com/gohelsahil" target="_blank" rel="noopener noreferrer" data-cursor="text">GitHub</a>
+        <a href="https://www.linkedin.com/in/gohelsahil" target="_blank" rel="noopener noreferrer" data-cursor="text">LinkedIn</a>
+        <a href="mailto:sahilgohel91@gmail.com" data-cursor="text">Email</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-row reveal">
+      <p class="footer-word">Contact</p>
+      <div class="footer-meta">
+        <span>SahilGohel.</span>
+        <span class="footer-counter" id="footer-counter">(0)</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Sahil Gohel</span>
+      <span>London, UK</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
