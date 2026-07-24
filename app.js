@@ -22,8 +22,9 @@
 
   /* ---------------- helpers: text splitting ---------------- */
   function splitToWords(el) {
-    // Preserve <br> line breaks; split each text run into word spans.
+    if (!el) return [];
     var walker = Array.prototype.slice.call(el.childNodes);
+
     el.innerHTML = '';
     walker.forEach(function (node) {
       if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR') {
