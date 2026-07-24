@@ -15,11 +15,11 @@
   --border-strong: #3a3a3a;
   --card-bg-1: #111111;
   --card-bg-2: #1a1a1a;
-  --accent-1: #cc0000;
-  --accent-1-rgb: 204, 0, 0;
-  --accent-2: #ff3333;
-  --accent-2-rgb: 255, 51, 51;
-  --accent-text: #ff3333;
+  --accent-1: #2c7a7b;          /* deep teal */
+  --accent-1-rgb: 44, 122, 123;
+  --accent-2: #4fd1c5;          /* bright cyan-teal */
+  --accent-2-rgb: 79, 209, 197;
+  --accent-text: #4fd1c5;
   --accent-grad: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   --header-bg: rgba(10, 10, 10, 0.55);
   --nav-chip-bg: rgba(10, 10, 10, 0.7);
