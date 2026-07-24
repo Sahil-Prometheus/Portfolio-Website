@@ -18,7 +18,8 @@
     root.classList.add('no-cursor');
   }
 
-  document.getElementById('year').textContent = new Date().getFullYear();
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* ---------------- helpers: text splitting ---------------- */
   function splitToWords(el) {
@@ -98,6 +99,7 @@
   if (!prefersReducedMotion && !isTouch) {
     var dot = document.getElementById('cursor-dot');
     var ring = document.getElementById('cursor-ring');
+    if (dot && ring) {
     var mx = window.innerWidth / 2,
       my = window.innerHeight / 2;
     var rx = mx,
@@ -142,6 +144,7 @@
       dot.style.opacity = '1';
       ring.style.opacity = '1';
     });
+    }
   }
 
   /* ============================================================
@@ -153,6 +156,9 @@
     var heroLabel = document.getElementById('hero-label');
     var heroTagline = document.getElementById('hero-tagline');
     var heroStatement = document.getElementById('hero-statement');
+    var heroBottom = document.querySelector('.hero-bottom');
+
+    if (!heroPhoto || !heroName) return;
 
     if (prefersReducedMotion) {
       heroPhoto.style.opacity = '1';
@@ -170,9 +176,9 @@
       return;
     }
 
-    var labelWords = splitToWords(heroLabel);
-    var taglineWords = splitToWords(heroTagline);
-    var statementWords = splitToWords(heroStatement);
+    var labelWords = heroLabel ? splitToWords(heroLabel) : [];
+    var taglineWords = heroTagline ? splitToWords(heroTagline) : [];
+    var statementWords = heroStatement ? splitToWords(heroStatement) : [];
 
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -184,27 +190,35 @@
     tl.to(heroName, { opacity: 1, filter: 'blur(0px)', duration: 1.1, ease: 'power2.out' }, 0.35);
 
     // 3. staggered text — label, tagline, statement (opacity + clip-path, one-time load so transform ok too)
-    tl.to(labelWords, {
-      opacity: 1,
-      clipPath: 'inset(0 0 0% 0)',
-      duration: 0.7,
-      stagger: 0.03,
-    }, 0.15);
-    tl.to(taglineWords, {
-      opacity: 1,
-      clipPath: 'inset(0 0 0% 0)',
-      duration: 0.7,
-      stagger: 0.02,
-    }, 0.55);
-    tl.to(statementWords, {
-      opacity: 1,
-      clipPath: 'inset(0 0 0% 0)',
-      duration: 0.6,
-      stagger: 0.02,
-    }, 0.8);
+    if (labelWords.length) {
+      tl.to(labelWords, {
+        opacity: 1,
+        clipPath: 'inset(0 0 0% 0)',
+        duration: 0.7,
+        stagger: 0.03,
+      }, 0.15);
+    }
+    if (taglineWords.length) {
+      tl.to(taglineWords, {
+        opacity: 1,
+        clipPath: 'inset(0 0 0% 0)',
+        duration: 0.7,
+        stagger: 0.02,
+      }, 0.55);
+    }
+    if (statementWords.length) {
+      tl.to(statementWords, {
+        opacity: 1,
+        clipPath: 'inset(0 0 0% 0)',
+        duration: 0.6,
+        stagger: 0.02,
+      }, 0.8);
+    }
 
     // hero bottom bar fade
-    tl.from('.hero-bottom', { opacity: 0, y: 12, duration: 0.7 }, 0.9);
+    if (heroBottom) {
+      tl.from(heroBottom, { opacity: 0, y: 12, duration: 0.7 }, 0.9);
+    }
   }
 
   /* ============================================================
@@ -212,7 +226,8 @@
      ============================================================ */
   function initHeroZoom() {
     var zoomEl = document.getElementById('hero-zoom');
-    if (!zoomEl) return;
+    var hero = document.querySelector('.hero');
+    if (!zoomEl || !hero) return;
 
     if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
       // Static fallback: no pin, no scale — just a normal section in flow.
@@ -228,11 +243,11 @@
       opacity: 0,
       ease: 'none',
       scrollTrigger: {
-        trigger: '.hero',
+        trigger: hero,
         start: 'top top',
         end: '+=100%', // ~1 viewport height of scroll
         scrub: true,
-        pin: '.hero',
+        pin: hero,
         pinSpacing: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -447,59 +462,68 @@
     });
 
     // Work-card stagger: 100ms delay between each
-    var cards = document.querySelectorAll('.work-card');
-    ScrollTrigger.create({
-      trigger: '#works-list',
-      start: 'top 80%',
-      once: true,
-      onEnter: function () {
-        gsap.to(cards, {
-          opacity: 1,
-          duration: 0.01,
-        });
-        cards.forEach(function (card, i) {
-          card.classList.add('is-visible');
-          gsap.fromTo(
-            card,
-            { clipPath: 'inset(0 0 40% 0)', opacity: 0 },
-            { clipPath: 'inset(0 0 0% 0)', opacity: 1, duration: 0.8, delay: i * 0.1, ease: 'power3.out' }
-          );
-        });
-      },
-    });
+    var worksList = document.getElementById('works-list');
+    var cards = worksList ? worksList.querySelectorAll('.work-card') : [];
+    if (worksList && cards.length) {
+      ScrollTrigger.create({
+        trigger: worksList,
+        start: 'top 80%',
+        once: true,
+        onEnter: function () {
+          gsap.to(cards, {
+            opacity: 1,
+            duration: 0.01,
+          });
+          cards.forEach(function (card, i) {
+            card.classList.add('is-visible');
+            gsap.fromTo(
+              card,
+              { clipPath: 'inset(0 0 40% 0)', opacity: 0 },
+              { clipPath: 'inset(0 0 0% 0)', opacity: 1, duration: 0.8, delay: i * 0.1, ease: 'power3.out' }
+            );
+          });
+        },
+      });
+    }
 
     // Note: the old subtle hero-photo parallax was removed — superseded by
     // the pinned scroll-zoom in initHeroZoom(), which already drives all
     // hero motion via #hero-zoom's scale/opacity scrub.
 
     // Showcase visibility trigger for image reveal
-    ScrollTrigger.create({
-      trigger: '.showcase',
-      start: 'top 70%',
-      once: true,
-      onEnter: function () {
-        document.querySelector('.showcase').classList.add('is-visible');
-      },
-    });
+    var showcase = document.querySelector('.showcase');
+    if (showcase) {
+      ScrollTrigger.create({
+        trigger: showcase,
+        start: 'top 70%',
+        once: true,
+        onEnter: function () {
+          showcase.classList.add('is-visible');
+        },
+      });
+    }
 
     // Footer counter — count up project count on reveal
-    ScrollTrigger.create({
-      trigger: '.site-footer',
-      start: 'top 90%',
-      once: true,
-      onEnter: function () {
-        var counter = document.getElementById('footer-counter');
-        var obj = { val: 0 };
-        gsap.to(obj, {
-          val: 5,
-          duration: 1.2,
-          ease: 'power2.out',
-          onUpdate: function () {
-            counter.textContent = '(' + Math.round(obj.val) + ')';
-          },
-        });
-      },
-    });
+    var siteFooter = document.querySelector('.site-footer');
+    var footerCounter = document.getElementById('footer-counter');
+    if (siteFooter && footerCounter) {
+      ScrollTrigger.create({
+        trigger: siteFooter,
+        start: 'top 90%',
+        once: true,
+        onEnter: function () {
+          var obj = { val: 0 };
+          gsap.to(obj, {
+            val: 5,
+            duration: 1.2,
+            ease: 'power2.out',
+            onUpdate: function () {
+              footerCounter.textContent = '(' + Math.round(obj.val) + ')';
+            },
+          });
+        },
+      });
+    }
   }
 
   /* ============================================================
@@ -606,6 +630,7 @@
      ============================================================ */
   function initHeaderScroll() {
     var header = document.getElementById('site-header');
+    if (!header) return;
     var lastY = window.scrollY;
     var ticking = false;
 
