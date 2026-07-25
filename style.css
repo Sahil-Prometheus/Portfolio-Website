@@ -892,6 +892,7 @@ section {
   display: flex;
   flex-direction: column;
   width: min(340px, 78vw);
+  min-height: 280px; /* Ensure space for image and text */
   padding: var(--space-5);
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -900,12 +901,14 @@ section {
   opacity: var(--ww-opacity, 1);
   will-change: transform, opacity;
   transition: border-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 .ww-card:hover {
   border-color: rgba(var(--accent-2-rgb), 0.35);
   box-shadow: 0 20px 60px -20px rgba(var(--accent-1-rgb), 0.35);
 }
 .ww-thumb {
+  flex-shrink: 0; /* Prevent image from shrinking */
   width: 100%;
   aspect-ratio: 14 / 10;
   border-radius: 8px;
