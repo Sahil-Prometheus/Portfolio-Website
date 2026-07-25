@@ -323,17 +323,20 @@
         var t = Math.min(absDeg / 100, 1); // falloff window: 100deg from focus
         var eased = 1 - Math.pow(1 - t, 2); // ease-out falloff
         var scale = 1 - eased * 0.48; // 1 -> 0.52
-        var opacity = 1 - eased * 0.85; // 1 -> 0.15
+        
+        // Inactive cards (t > 0.7) get no opacity (fully hidden via CSS class)
+        // Only active cards show with reduced opacity for depth effect
+        var cardOpacity = t > 0.7 ? 0 : Math.max(0.3, 1 - eased * 0.6); // min 0.3 for readability
         
         // Higher z-index for front cards, lower for back cards
         // Front card (t=0) gets highest z-index, back cards get lowest
         var zIndex = Math.round((1 - t) * 100);
         
-        // Inactive cards are those significantly off-center (t > 0.75)
-        var isInactive = t > 0.75;
+        // Inactive cards are those significantly off-center (t > 0.7)
+        var isInactive = t > 0.7;
         
         card.style.setProperty('--ww-scale', scale.toFixed(3));
-        card.style.setProperty('--ww-opacity', opacity.toFixed(3));
+        card.style.setProperty('--ww-opacity', cardOpacity.toFixed(3));
         card.style.zIndex = zIndex;
 
         // Use inert for inactive cards - hides from AT, removes from tab order, blocks pointer events, auto-blurs

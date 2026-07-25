@@ -980,15 +980,12 @@ section {
 
 /* Hide inactive cards to prevent text bleeding over active cards */
 .ww-card.is-inactive {
-  opacity: 0 !important;
-  visibility: hidden;
-  pointer-events: none;
+  display: none !important;
 }
 
 .ww-card.is-inactive .ww-body,
 .ww-card.is-inactive .ww-thumb {
-  opacity: 0;
-  visibility: hidden;
+  display: none !important;
 }
 
 /* Reduced motion: flat, static, horizontally scrollable strip — no wheel math */
