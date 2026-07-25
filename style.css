@@ -60,6 +60,11 @@
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
   --container: 1400px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
 }
@@ -971,6 +976,19 @@ section {
 }
 .ww-card:hover .ww-link svg {
   transform: translateX(4px);
+}
+
+/* Hide inactive cards to prevent text bleeding over active cards */
+.ww-card.is-inactive {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ww-card.is-inactive .ww-body,
+.ww-card.is-inactive .ww-thumb {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* Reduced motion: flat, static, horizontally scrollable strip — no wheel math */

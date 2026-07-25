@@ -324,17 +324,25 @@
         var eased = 1 - Math.pow(1 - t, 2); // ease-out falloff
         var scale = 1 - eased * 0.48; // 1 -> 0.52
         var opacity = 1 - eased * 0.85; // 1 -> 0.15
-        var z = Math.round((1 - t) * 100);
-
+        
+        // Higher z-index for front cards, lower for back cards
+        // Front card (t=0) gets highest z-index, back cards get lowest
+        var zIndex = Math.round((1 - t) * 100);
+        
+        // Inactive cards are those significantly off-center (t > 0.75)
+        var isInactive = t > 0.75;
+        
         card.style.setProperty('--ww-scale', scale.toFixed(3));
         card.style.setProperty('--ww-opacity', opacity.toFixed(3));
-        card.style.zIndex = z;
+        card.style.zIndex = zIndex;
 
-        // Use inert attribute for better accessibility - auto-blurs, removes from tab order, hides from AT
-        if (t > 0.88) {
+        // Use inert for inactive cards - hides from AT, removes from tab order, blocks pointer events, auto-blurs
+        if (isInactive) {
           card.inert = true;
+          card.classList.add('is-inactive');
         } else {
           card.inert = false;
+          card.classList.remove('is-inactive');
         }
       });
     }
