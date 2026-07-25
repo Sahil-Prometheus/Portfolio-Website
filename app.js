@@ -739,6 +739,7 @@
     initHeaderScroll();
     initSectionNav();
     initThemeToggle();
+    initModal();
   });
 
   // Fallback in case 'load' already fired or is slow
@@ -750,5 +751,167 @@
     initHeaderScroll();
     initSectionNav();
     initThemeToggle();
+  }
+
+  /* ---------------- MODAL FUNCTIONALITY ---------------- */
+  function initModal() {
+    var modalOverlay = document.getElementById('modal-overlay');
+    var modalContainer = document.getElementById('modal-container');
+    var modalClose = document.getElementById('modal-close');
+    var modalContent = document.getElementById('modal-content');
+
+    if (!modalOverlay || !modalClose) return;
+
+    // Open modal on click
+    document.querySelectorAll('.modal-trigger').forEach(function(trigger) {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        var caseStudyId = this.getAttribute('data-modal');
+        openModal(caseStudyId);
+      });
+    });
+
+    // Close modal on close button click
+    if (modalClose) {
+      modalClose.addEventListener('click', function() {
+        closeModal();
+      });
+    }
+
+    // Close modal on overlay click
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+  }
+
+  function openModal(caseStudyId) {
+    var modalOverlay = document.getElementById('modal-overlay');
+    var modalContainer = document.getElementById('modal-container');
+    var modalContent = document.getElementById('modal-content');
+
+    if (!modalOverlay || !modalContent) return;
+
+    // Fetch content based on case study ID (placeholder for now)
+    var caseStudyData = getCaseStudyData(caseStudyId);
+    
+    // Populate modal with data
+    modalContent.innerHTML = 
+      '<h2>' + caseStudyData.title + '</h2>' +
+      '<p class="modal-client">' + caseStudyData.client + '</p>' +
+      '<div class="modal-desc">' + caseStudyData.description + '</div>' +
+      '<div class="modal-details">' +
+        caseStudyData.details.map(function(detail) {
+          return '<div class="modal-detail-item"><div class="modal-detail-label">' + detail.label + '</div><div class="modal-detail-text">' + detail.text + '</div></div>';
+        }).join('') +
+      '</div>';
+
+    // GSAP animation to open modal
+    gsap.to(modalOverlay, {
+      opacity: 1,
+      visibility: 'visible',
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+
+    gsap.fromTo(modalContainer, 
+      { y: 50, opacity: 0, scale: 0.9 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.2)' }
+    );
+
+    // Disable body scroll
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    var modalOverlay = document.getElementById('modal-overlay');
+    var modalContainer = document.getElementById('modal-container');
+
+    if (!modalOverlay) return;
+
+    // GSAP animation to close modal
+    gsap.to(modalOverlay, {
+      opacity: 0,
+      visibility: 'hidden',
+      duration: 0.3,
+      ease: 'power2.in'
+    });
+
+    gsap.to(modalContainer, {
+      y: 50,
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.3,
+      ease: 'power2.in'
+    });
+
+    // Re-enable body scroll
+    setTimeout(function() {
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  function getCaseStudyData(caseStudyId) {
+    // Placeholder data - replace with actual content later
+    var caseStudies = {
+      'work-1': {
+        title: 'Conversational AI for brand insights',
+        client: 'Global FMCG Leader &middot; Implementation Lead',
+        description: '<p>Rolled out a conversational AI pilot integrating brand tracker, panel, ad spend, and sales data — letting insights teams query years of data in plain language instead of waiting in an analyst queue. Led the full cycle: demos, client feedback loops, iterative product improvement.</p>',
+        details: [
+          { label: 'Year', text: '2025' },
+          { label: 'Role', text: 'Implementation Lead' },
+          { label: 'Tools', text: 'LLM APIs, RAG, Figma' }
+        ]
+      },
+      'work-2': {
+        title: 'Connected insights ecosystem',
+        client: 'Fortune 50 Client &middot; Analytics Engagement Lead',
+        description: '<p>Designed a unified decision layer connecting brand tracker, consumer panel, Nielsen, ad spend, and CSAT data into one set of dashboards — replacing fragmented, duplicated reporting with a single view.</p>',
+        details: [
+          { label: 'Year', text: '2024' },
+          { label: 'Role', text: 'Analytics Engagement Lead' },
+          { label: 'Impact', text: '$250K in annual cost savings' }
+        ]
+      },
+      'work-3': {
+        title: 'Hyper-personalised SKU recommendations',
+        client: 'Global FMCG Giant &middot; Data Scientist',
+        description: '<p>Built SKU-level recommendation models personalised to individual retailers, turning portfolio data into store-ready sell-in stories.</p>',
+        details: [
+          { label: 'Year', text: '2022' },
+          { label: 'Role', text: 'Data Scientist' },
+          { label: 'Impact', text: 'Drove measurable retailer uptake' }
+        ]
+      },
+      'work-4': {
+        title: 'Marketing mix models for luxury beauty',
+        client: 'Luxury Beauty Retailer &middot; Marketing Analytics Lead',
+        description: '<p>Developed MMM models quantifying the revenue contribution of each channel, giving the brand an evidence base for budget allocation.</p>',
+        details: [
+          { label: 'Year', text: '2020' },
+          { label: 'Role', text: 'Marketing Analytics Lead' },
+          { label: 'Impact', text: 'Optimised multi-channel marketing spend' }
+        ]
+      },
+      'work-5': {
+        title: 'NLP-driven NPS analysis',
+        client: 'Leading Life Insurance Provider &middot; Text Analytics Lead',
+        description: '<p>Identified the drivers behind NPS movement from open-text feedback at scale. Designed NLP analysis over customer verbatims to isolate what actually moved satisfaction.</p>',
+        details: [
+          { label: 'Year', text: '2019' },
+          { label: 'Role', text: 'Text Analytics Lead' },
+          { label: 'Tools', text: 'NLP, Python, Scikit-learn' }
+        ]
+      }
+    };
+
+    return caseStudies[caseStudyId] || {
+      title: 'Case Study',
+      client: '',
+      description: '<p>Details coming soon.</p>',
+      details: []
+    };
   }
 })();

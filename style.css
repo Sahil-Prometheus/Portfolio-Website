@@ -1503,3 +1503,116 @@ section {
     text-shadow: 0 0 4px rgba(0, 0, 255, 0.5);
   }
 }
+
+/* ============ MODAL STYLES ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  position: relative;
+  width: min(90vw, 800px);
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 10;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+  color: var(--text);
+  transform: rotate(90deg);
+}
+
+.modal-content {
+  padding: var(--space-8);
+}
+
+.modal-content h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-4);
+}
+
+.modal-content .modal-client {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.modal-content .modal-desc {
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
+}
+
+.modal-content .modal-details {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.modal-content .modal-detail-item {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-content .modal-detail-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.modal-content .modal-detail-text {
+  color: var(--text);
+}
+
+.modal-content .modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 600px) {
+  .modal-container {
+    width: 95vw;
+    max-height: 90vh;
+  }
+  
+  .modal-content {
+    padding: var(--space-4);
+  }
+}
