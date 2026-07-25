@@ -1469,3 +1469,24 @@ section {
     gap: var(--space-2);
   }
 }
+
+/* Fix for hero name readability in light mode */
+.hero-name {
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 720px) {
+  .hero-name .split-word {
+    color: #0a0a0a !important;
+    -webkit-text-fill-color: #0a0a0a !important;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  }
+  
+  [data-theme='dark'] .hero-name .split-word {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: 0 0 4px rgba(0, 0, 255, 0.5);
+  }
+}
