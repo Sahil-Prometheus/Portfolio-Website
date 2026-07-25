@@ -1470,6 +1470,19 @@ section {
   }
 }
 
+/* Make 'Sahil' text white in light mode on mobile for better readability */
+@media (max-width: 720px) {
+  .hero-name {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  
+  .hero-name .split-word {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
 /* Fix for hero name readability in light mode */
 .hero-name {
   color: var(--text) !important;
