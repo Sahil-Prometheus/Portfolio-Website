@@ -528,7 +528,7 @@ html[data-theme='light'] .theme-icon-sun {
     -webkit-text-fill-color: #0a0a0a !important;
     text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
   }
-  
+
   [data-theme='dark'] .hero-name .split-word {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
@@ -816,12 +816,13 @@ section {
 .work-card:hover .work-link::after {
   transform: scaleX(1);
 }
-.work-link svg {
-  width: 14px;
-  height: 14px;
+.ww-link svg {
+  width: 12px;
+  height: 12px;
   transition: transform 0.3s var(--ease-out);
 }
-.work-card:hover .work-link svg {
+
+.ww-card:hover .ww-link svg {
   transform: translateX(4px);
 }
 
@@ -958,6 +959,12 @@ section {
   width: 12px;
   height: 12px;
   transition: transform 0.3s var(--ease-out);
+}
+
+/* Ensure text is visible even when card opacity is low */
+.ww-card .ww-title,
+.ww-card .ww-desc {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .ww-card:hover .ww-link svg {
   transform: translateX(4px);
@@ -1476,7 +1483,7 @@ section {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
-  
+
   .hero-name .split-word {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
@@ -1496,7 +1503,7 @@ section {
     -webkit-text-fill-color: #0a0a0a !important;
     text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
   }
-  
+
   [data-theme='dark'] .hero-name .split-word {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
@@ -1611,7 +1618,7 @@ section {
     width: 95vw;
     max-height: 90vh;
   }
-  
+
   .modal-content {
     padding: var(--space-4);
   }

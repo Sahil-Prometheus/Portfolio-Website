@@ -330,14 +330,11 @@
         card.style.setProperty('--ww-opacity', opacity.toFixed(3));
         card.style.zIndex = z;
 
+        // Use inert attribute for better accessibility - auto-blurs, removes from tab order, hides from AT
         if (t > 0.88) {
-          card.style.pointerEvents = 'none';
-          card.setAttribute('tabindex', '-1');
-          card.setAttribute('aria-hidden', 'true');
+          card.inert = true;
         } else {
-          card.style.pointerEvents = 'auto';
-          card.removeAttribute('tabindex');
-          card.removeAttribute('aria-hidden');
+          card.inert = false;
         }
       });
     }
