@@ -518,6 +518,18 @@ html[data-theme='light'] .theme-icon-sun {
 }
 .hero-name .split-word {
   margin-right: 0.02em;
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+
+@media (max-width: 720px) {
+  .hero-name .split-word {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    /* Ensure good contrast even on dark backgrounds */
+    filter: brightness(1.2);
+  }
 }
 
 .hero-middle {
