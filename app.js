@@ -504,7 +504,7 @@
     }
 
     // Footer counter — count up project count on reveal
-    var siteFooter = document.querySelector('.site-footer');
+    /*var siteFooter = document.querySelector('.site-footer');
     var footerCounter = document.getElementById('footer-counter');
     if (siteFooter && footerCounter) {
       ScrollTrigger.create({
@@ -523,7 +523,7 @@
           });
         },
       });
-    }
+    }*/
   }
 
   /* ============================================================
