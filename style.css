@@ -821,15 +821,6 @@ section {
 .work-card:hover .work-link::after {
   transform: scaleX(1);
 }
-.ww-link svg {
-  width: 12px;
-  height: 12px;
-  transition: transform 0.3s var(--ease-out);
-}
-
-.ww-card:hover .ww-link svg {
-  transform: translateX(4px);
-}
 
 .work-card {
   transition:
@@ -907,6 +898,16 @@ section {
   will-change: transform, opacity;
   transition: border-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
   overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+/* Make ww-card clickable and accessible (now a div instead of anchor) */
+.ww-card {
+  cursor: pointer;
+}
+
+.ww-card:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 4px;
 }
 .ww-card:hover {
   border-color: rgba(var(--accent-2-rgb), 0.35);
@@ -1492,41 +1493,7 @@ section {
   }
   .pill-group {
     gap: var(--space-2);
-  }
-}
-
-/* Make 'Sahil' text white in light mode on mobile for better readability */
-@media (max-width: 720px) {
-  .hero-name {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  .hero-name .split-word {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-}
-
-/* Fix for hero name readability in light mode */
-.hero-name {
-  color: var(--text) !important;
-  -webkit-text-fill-color: var(--text) !important;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-}
-
-@media (max-width: 720px) {
-  .hero-name .split-word {
-    color: #0a0a0a !important;
-    -webkit-text-fill-color: #0a0a0a !important;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
-  }
-
-  [data-theme='dark'] .hero-name .split-word {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    text-shadow: 0 0 4px rgba(0, 0, 255, 0.5);
-  }
+   }
 }
 
 /* ============ MODAL STYLES ============ */

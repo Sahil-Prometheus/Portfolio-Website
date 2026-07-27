@@ -285,6 +285,32 @@
 
     var cards = items.map(function (item) { return item.querySelector('.ww-card'); });
 
+     // Add click handler for wheel cards - navigate to work section when clicked
+   cards.forEach(function(card) {
+     card.style.cursor = 'pointer';
+
+      // Navigate on click
+     var handleCardClick = function() {
+       var href = this.getAttribute('data-href');
+       if (href) {
+         var target = document.querySelector(href);
+         if (target) {
+           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+           }
+          }
+       };
+
+     card.addEventListener('click', handleCardClick.bind(card));
+
+      // Navigate on Enter or Space key
+     card.addEventListener('keydown', function(e) {
+       if (e.key === 'Enter' || e.key === ' ') {
+         e.preventDefault();
+         handleCardClick.call(this);
+         }
+       });
+     });
+
     var scrollRotationDeg = 0;
     var dragOffsetDeg = 0;
     var isDragging = false;
@@ -323,18 +349,18 @@
         var t = Math.min(absDeg / 100, 1); // falloff window: 100deg from focus
         var eased = 1 - Math.pow(1 - t, 2); // ease-out falloff
         var scale = 1 - eased * 0.48; // 1 -> 0.52
-        
+
         // Inactive cards (t > 0.7) get no opacity (fully hidden via CSS class)
         // Only active cards show with reduced opacity for depth effect
         var cardOpacity = t > 0.7 ? 0 : Math.max(0.3, 1 - eased * 0.6); // min 0.3 for readability
-        
+
         // Higher z-index for front cards, lower for back cards
         // Front card (t=0) gets highest z-index, back cards get lowest
         var zIndex = Math.round((1 - t) * 100);
-        
+
         // Inactive cards are those significantly off-center (t > 0.7)
         var isInactive = t > 0.7;
-        
+
         card.style.setProperty('--ww-scale', scale.toFixed(3));
         card.style.setProperty('--ww-opacity', cardOpacity.toFixed(3));
         card.style.zIndex = zIndex;
@@ -751,15 +777,16 @@
   });
 
   // Fallback in case 'load' already fired or is slow
-  if (document.readyState === 'complete') {
-    runHeroSequence();
-    initHeroZoom();
-    initWorkWheel();
-    initScrollReveals();
-    initHeaderScroll();
-    initSectionNav();
-    initThemeToggle();
-  }
+if (document.readyState === 'complete') {
+  runHeroSequence();
+  initHeroZoom();
+  initWorkWheel();
+  initScrollReveals();
+  initHeaderScroll();
+  initSectionNav();
+  initThemeToggle();
+  initModal();
+ }
 
   /* ---------------- MODAL FUNCTIONALITY ---------------- */
   function initModal() {
@@ -771,13 +798,14 @@
     if (!modalOverlay || !modalClose) return;
 
     // Open modal on click
-    document.querySelectorAll('.modal-trigger').forEach(function(trigger) {
-      trigger.addEventListener('click', function(e) {
-        e.preventDefault();
-        var caseStudyId = this.getAttribute('data-modal');
-        openModal(caseStudyId);
-      });
-    });
+  document.querySelectorAll('.modal-trigger').forEach(function(trigger) {
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation(); // Prevent bubbling to parent card
+      var caseStudyId = this.getAttribute('data-modal');
+      openModal(caseStudyId);
+     });
+   });
 
     // Close modal on close button click
     if (modalClose) {
@@ -787,9 +815,16 @@
     }
 
     // Close modal on overlay click
-    modalOverlay.addEventListener('click', function(e) {
-      if (e.target === modalOverlay) {
-        closeModal();
+   modalOverlay.addEventListener('click', function(e) {
+     if (e.target === modalOverlay) {
+       closeModal();
+      }
+    });
+
+    // Close modal on ESC key press
+   document.addEventListener('keydown', function(e) {
+     if (e.key === 'Escape' && modalOverlay.classList.contains('is-visible')) {
+       closeModal();
       }
     });
   }
@@ -803,9 +838,9 @@
 
     // Fetch content based on case study ID (placeholder for now)
     var caseStudyData = getCaseStudyData(caseStudyId);
-    
+
     // Populate modal with data
-    modalContent.innerHTML = 
+    modalContent.innerHTML =
       '<h2>' + caseStudyData.title + '</h2>' +
       '<p class="modal-client">' + caseStudyData.client + '</p>' +
       '<div class="modal-desc">' + caseStudyData.description + '</div>' +
@@ -823,7 +858,7 @@
       ease: 'power2.out'
     });
 
-    gsap.fromTo(modalContainer, 
+    gsap.fromTo(modalContainer,
       { y: 50, opacity: 0, scale: 0.9 },
       { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.2)' }
     );
