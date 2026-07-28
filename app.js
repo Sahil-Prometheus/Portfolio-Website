@@ -808,13 +808,15 @@ if (document.readyState === 'complete') {
       });
 
     // Open certification modal on click
-   document.querySelectorAll('.cert-trigger').forEach(function(trigger) {
-     trigger.addEventListener('click', function(e) {
-       e.preventDefault();
-       var certId = this.getAttribute('data-modal');
-       openCertModal(certId);
-        });
-      });
+ document.querySelectorAll('.cert-trigger').forEach(function(trigger) {
+   trigger.addEventListener('click', function(e) {
+     e.preventDefault();
+     e.stopPropagation(); // Prevent any parent click handlers
+     var certId = this.getAttribute('data-modal');
+      console.log('Opening cert modal:', certId); // Debug logging
+     openCertModal(certId);
+       });
+   });
 
     // Close modal on close button click
     if (modalClose) {
@@ -928,23 +930,41 @@ if (document.readyState === 'complete') {
      }
 
    function openCertModal(certId) {
-     var modalOverlay = document.getElementById('modal-overlay');
-     var modalContainer = document.getElementById('modal-container');
-     var modalContent = document.getElementById('modal-content');
+    console.log('openCertModal called with:', certId); // Debug
+   var modalOverlay = document.getElementById('modal-overlay');
+   var modalContainer = document.getElementById('modal-container');
+  var modalContent = document.getElementById('modal-content');
 
-      if (!modalOverlay || !modalContent) return;
+    if (!modalOverlay || !modalContent) {
+      console.log('Modal elements not found, aborting');
+       return;
+     }
 
-       // Get certification data
-      var cert = certData[certId];
-      if (!cert) return;
+        // Get certification data
+     var cert = certData[certId];
+    if (!cert) {
+       console.log('Cert data not found for:', certId);
+       return;
+      }
 
-        // Populate modal with certification content
+         // Populate modal with certification content
       modalContent.innerHTML = 
-          '<h2>' + cert.title + '</h2>' +
+            '<h2>' + cert.title + '</h2>' +
            cert.description +
-            '<div class="cert-image-container"><img src="' + cert.image + '" alt="' + cert.title + ' certificate" class="cert-image"></div>';
+              '<div class="cert-image-container" style="min-height: 300px; display: flex; align-items: center; justify-content: center;">' +
+               '<img src="' + cert.image + '" alt="' + cert.title + ' certificate" class="cert-image" />' +
+              '</div>';
 
-        // GSAP animation to open modal
+           // Add error handler for failed image loads
+      var img = modalContent.querySelector('.cert-image');
+     if (img) {
+        img.onerror = function() {
+         console.error('Failed to load certificate image:', cert.image);
+          this.parentElement.innerHTML = '<p style="color: var(--text-muted);">Certificate image not available.</p>';
+       };
+       }
+
+          // GSAP animation to open modal
        gsap.to(modalOverlay, {
          opacity: 1,
          visibility: 'visible',
