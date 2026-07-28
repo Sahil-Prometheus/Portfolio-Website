@@ -418,10 +418,13 @@ html[data-theme='light'] .theme-icon-sun {
 }
 
 @media (max-width: 480px) {
-  .header-right {
-    gap: var(--space-4);
-  }
-}
+    .header-right {
+     gap: var(--space-2);
+    }
+   .main-nav {
+     display: none; /* Hide nav on very narrow screens - theme toggle stays visible */
+    }
+   }
 
 /* ---------------- Hero ---------------- */
 .hero {
@@ -1598,39 +1601,14 @@ section {
   margin-top: var(--space-8);
 }
 
-/* Certification trigger styles */
-.cert-trigger {
+/* Certification row hover styles */
+.cert-row {
   cursor: pointer;
-  transition: color 0.2s var(--ease-out);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  user-select: none; /* Prevent text selection on double-click */
+  transition: background-color 0.2s var(--ease-out);
 }
 
-/* Certification trigger icon */
-.cert-icon {
-  width: 14px;
-  height: 14px;
-  opacity: 0.3;
-  transition: opacity 0.2s var(--ease-out);
-  pointer-events: none; /* Let clicks pass through to parent */
-}
-
-.cert-trigger:hover .cert-icon,
-.cert-trigger:focus-visible .cert-icon {
-  opacity: 1;
-}
-
-.cert-trigger:hover {
-  color: var(--accent-2);
-}
-
-.cert-trigger:focus-visible {
-  outline: 2px solid var(--accent-2);
-  outline-offset: 4px;
-  border-radius: 4px;
+.cert-row:hover {
+  background: linear-gradient(90deg, rgba(var(--accent-2-rgb), 0.04), transparent 60%);
 }
 
 /* Certification modal image styles */

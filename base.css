@@ -14,6 +14,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-variant-ligatures: none; /* Prevent ligature rendering issues (e.g. 'Consultant' spacing) */
   hanging-punctuation: first last;
 }
 

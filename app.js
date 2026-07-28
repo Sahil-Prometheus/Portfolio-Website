@@ -807,16 +807,21 @@ if (document.readyState === 'complete') {
         });
       });
 
-    // Open certification modal on click
- document.querySelectorAll('.cert-trigger').forEach(function(trigger) {
-   trigger.addEventListener('click', function(e) {
-     e.preventDefault();
-     e.stopPropagation(); // Prevent any parent click handlers
-     var certId = this.getAttribute('data-modal');
-      console.log('Opening cert modal:', certId); // Debug logging
-     openCertModal(certId);
-       });
-   });
+    // Certification modal - open on hover with delay
+ var certOpenTimeout = null;
+  document.querySelectorAll('.cert-row').forEach(function(row) {
+    row.addEventListener('mouseenter', function() {
+       clearTimeout(certOpenTimeout); // Clear any pending close
+      var certId = row.getAttribute('data-cert');
+      certOpenTimeout = setTimeout(function() {
+         if (certId) openCertModal(certId);
+            }, 300); // 300ms delay before opening
+        });
+
+     row.addEventListener('mouseleave', function() {
+       clearTimeout(certOpenTimeout); // Cancel pending open on mouse leave
+         });
+      });
 
     // Close modal on close button click
     if (modalClose) {
