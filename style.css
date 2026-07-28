@@ -1598,13 +1598,58 @@ section {
   margin-top: var(--space-8);
 }
 
-@media (max-width: 600px) {
-  .modal-container {
-    width: 95vw;
-    max-height: 90vh;
-  }
+/* Certification trigger styles */
+.cert-trigger {
+  cursor: pointer;
+  transition: color 0.2s var(--ease-out);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
 
-  .modal-content {
+.cert-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.3;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.cert-trigger:hover .cert-icon,
+.cert-trigger:focus-visible .cert-icon {
+  opacity: 1;
+}
+
+.cert-trigger:hover {
+  color: var(--accent-2);
+}
+
+.cert-trigger:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Certification modal image styles */
+.modal-content .cert-image-container {
+  margin-top: var(--space-6);
+  padding: var(--space-8);
+  background: var(--card-bg-1);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content .cert-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+   .modal-content .cert-image-container {
     padding: var(--space-4);
-  }
+   }
 }

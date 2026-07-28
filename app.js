@@ -798,14 +798,23 @@ if (document.readyState === 'complete') {
     if (!modalOverlay || !modalClose) return;
 
     // Open modal on click
-  document.querySelectorAll('.modal-trigger').forEach(function(trigger) {
-    trigger.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation(); // Prevent bubbling to parent card
-      var caseStudyId = this.getAttribute('data-modal');
-      openModal(caseStudyId);
-     });
-   });
+   document.querySelectorAll('.modal-trigger').forEach(function(trigger) {
+     trigger.addEventListener('click', function(e) {
+       e.preventDefault();
+       e.stopPropagation(); // Prevent bubbling to parent card
+       var caseStudyId = this.getAttribute('data-modal');
+       openModal(caseStudyId);
+        });
+      });
+
+    // Open certification modal on click
+   document.querySelectorAll('.cert-trigger').forEach(function(trigger) {
+     trigger.addEventListener('click', function(e) {
+       e.preventDefault();
+       var certId = this.getAttribute('data-modal');
+       openCertModal(certId);
+        });
+      });
 
     // Close modal on close button click
     if (modalClose) {
@@ -895,66 +904,60 @@ if (document.readyState === 'complete') {
     }, 300);
   }
 
-  function getCaseStudyData(caseStudyId) {
-    // Placeholder data - replace with actual content later
-    var caseStudies = {
-      'work-1': {
-        title: 'Conversational AI for brand insights',
-        client: 'Global FMCG Leader &middot; Implementation Lead',
-        description: '<p>Rolled out a conversational AI pilot integrating brand tracker, panel, ad spend, and sales data — letting insights teams query years of data in plain language instead of waiting in an analyst queue. Led the full cycle: demos, client feedback loops, iterative product improvement.</p>',
-        details: [
-          { label: 'Year', text: '2025' },
-          { label: 'Role', text: 'Implementation Lead' },
-          { label: 'Tools', text: 'LLM APIs, RAG, Figma' }
-        ]
-      },
-      'work-2': {
-        title: 'Connected insights ecosystem',
-        client: 'Fortune 50 Client &middot; Analytics Engagement Lead',
-        description: '<p>Designed a unified decision layer connecting brand tracker, consumer panel, Nielsen, ad spend, and CSAT data into one set of dashboards — replacing fragmented, duplicated reporting with a single view.</p>',
-        details: [
-          { label: 'Year', text: '2024' },
-          { label: 'Role', text: 'Analytics Engagement Lead' },
-          { label: 'Impact', text: '$250K in annual cost savings' }
-        ]
-      },
-      'work-3': {
-        title: 'Hyper-personalised SKU recommendations',
-        client: 'Global FMCG Giant &middot; Data Scientist',
-        description: '<p>Built SKU-level recommendation models personalised to individual retailers, turning portfolio data into store-ready sell-in stories.</p>',
-        details: [
-          { label: 'Year', text: '2022' },
-          { label: 'Role', text: 'Data Scientist' },
-          { label: 'Impact', text: 'Drove measurable retailer uptake' }
-        ]
-      },
-      'work-4': {
-        title: 'Marketing mix models for luxury beauty',
-        client: 'Luxury Beauty Retailer &middot; Marketing Analytics Lead',
-        description: '<p>Developed MMM models quantifying the revenue contribution of each channel, giving the brand an evidence base for budget allocation.</p>',
-        details: [
-          { label: 'Year', text: '2020' },
-          { label: 'Role', text: 'Marketing Analytics Lead' },
-          { label: 'Impact', text: 'Optimised multi-channel marketing spend' }
-        ]
-      },
-      'work-5': {
-        title: 'NLP-driven NPS analysis',
-        client: 'Leading Life Insurance Provider &middot; Text Analytics Lead',
-        description: '<p>Identified the drivers behind NPS movement from open-text feedback at scale. Designed NLP analysis over customer verbatims to isolate what actually moved satisfaction.</p>',
-        details: [
-          { label: 'Year', text: '2019' },
-          { label: 'Role', text: 'Text Analytics Lead' },
-          { label: 'Tools', text: 'NLP, Python, Scikit-learn' }
-        ]
-      }
-    };
+  // Certification data - available globally
+   var certData = {
+      'cert-hbs': {
+         title: 'Harvard Business School',
+         description: '<p>HBX Core (Pre-MBA Certificate) — Harvard Business School Online</p>',
+         image: './assets/cert-hbs.png' // Replace with actual image path
+        },
+        'cert-lse': {
+          title: 'London School of Economics',
+           description: '<p>Big Data Research — London School of Economics and Political Science</p>',
+           image: './assets/cert-lse.png' // Replace with actual image path
+          }
+         };
 
-    return caseStudies[caseStudyId] || {
-      title: 'Case Study',
-      client: '',
-      description: '<p>Details coming soon.</p>',
-      details: []
-    };
-  }
+   function getCaseStudyData(caseStudyId) {
+     return caseStudies[caseStudyId] || {
+       title: 'Case Study',
+       client: '',
+       description: '<p>Details coming soon.</p>',
+       details: []
+       };
+     }
+
+   function openCertModal(certId) {
+     var modalOverlay = document.getElementById('modal-overlay');
+     var modalContainer = document.getElementById('modal-container');
+     var modalContent = document.getElementById('modal-content');
+
+      if (!modalOverlay || !modalContent) return;
+
+       // Get certification data
+      var cert = certData[certId];
+      if (!cert) return;
+
+        // Populate modal with certification content
+      modalContent.innerHTML = 
+          '<h2>' + cert.title + '</h2>' +
+           cert.description +
+            '<div class="cert-image-container"><img src="' + cert.image + '" alt="' + cert.title + ' certificate" class="cert-image"></div>';
+
+        // GSAP animation to open modal
+       gsap.to(modalOverlay, {
+         opacity: 1,
+         visibility: 'visible',
+         duration: 0.3,
+         ease: 'power2.out'
+          });
+
+      gsap.fromTo(modalContainer,
+           { y: 50, opacity: 0, scale: 0.9 },
+           { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.2)' }
+           );
+
+        // Disable body scroll
+       document.body.style.overflow = 'hidden';
+     }
 })();
