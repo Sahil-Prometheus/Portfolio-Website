@@ -774,7 +774,6 @@
    initSectionNav();
    initThemeToggle();
    initModal();
-   initAuroraBars();
   });
 
   // Fallback in case 'load' already fired or is slow
@@ -787,70 +786,10 @@
    initSectionNav();
    initThemeToggle();
    initModal();
-   initAuroraBars();
-  }
+ }
 
-              /* ============ AURORA BARS ANIMATION ============ */
-     function initAuroraBars() {
-         var canvas = document.getElementById('aurora-bars');
-          if (!canvas) return;
-           var ctx = canvas.getContext('2d');
-             var barCount = 24;
-              var colors = ['#ffd6eb', '#ff9acb', '#ff5aa6', '#ff2d78', '#00000000'];
-               var maxHeightRatio = 0.92;
-                var minHeightRatio = 0.18;
-                 var speed = 0.5;
-                  var gapSize = 3;
-                   var background = '#000000';
-                     var w, h, dpr;
-                      function resize() {
-                       dpr = window.devicePixelRatio || 1;
-                        w = canvas.clientWidth;
-                         h = canvas.clientHeight;
-                          canvas.width = w * dpr;
-                           canvas.height = h * dpr;
-                            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                                }
-                      window.addEventListener('resize', resize);
-                       resize();
-                        function makeGradient(height) {
-                         var g = ctx.createLinearGradient(0, h, 0, h - height);
-                          var n = colors.length;
-                           colors.forEach(function(c, i) { g.addColorStop(i / (n - 1), c); });
-                            return g;
-                                 }
-                                var startTime = performance.now();
-                                 function noise(i, t) {
-                                  var a = Math.sin(i * 0.6 + t * 1.2);
-                                   var b = Math.sin(i * 0.23 - t * 0.7);
-                                    var wave = (a * 0.6 + b * 0.4 + 1) / 2;
-                                     var arch = Math.sin((i / (barCount - 1)) * Math.PI);
-                                      return wave * (0.5 + 0.5 * arch);
-                                           }
-                                          function frame(now) {
-                                           var t = ((now - startTime) / 1000) * speed;
-                                            ctx.fillStyle = background;
-                                             ctx.fillRect(0, 0, w, h);
-                                              var barW = (w - gapSize * (barCount - 1)) / barCount;
-                                               for (var i = 0; i < barCount; i++) {
-                                                var ratio = minHeightRatio + noise(i, t) * (maxHeightRatio - minHeightRatio);
-                                                 var barH = ratio * h;
-                                                  var x = i * (barW + gapSize);
-                                                   ctx.fillStyle = makeGradient(barH);
-                                                    ctx.fillRect(x, h - barH, barW, barH);
-                                                         }
-                                                        var vg = ctx.createRadialGradient(w / 2, h / 2, h * 0.2, w / 2, h / 2, h * 0.8);
-                                                         vg.addColorStop(0, 'rgba(0,0,0,0)');
-                                                          vg.addColorStop(1, 'rgba(0,0,0,0.5)');
-                                                           ctx.fillStyle = vg;
-                                                            ctx.fillRect(0, 0, w, h);
-                                                             requestAnimationFrame(frame);
-                                                                  }
-                                             requestAnimationFrame(frame);
-                                                 }
-
-                                               /* ---------------- MODAL FUNCTIONALITY ---------------- */
-  function initModal() {
+  /* ---------------- MODAL FUNCTIONALITY ---------------- */
+ function initModal() {
     var modalOverlay = document.getElementById('modal-overlay');
     var modalContainer = document.getElementById('modal-container');
     var modalClose = document.getElementById('modal-close');
