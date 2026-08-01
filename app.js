@@ -19,7 +19,7 @@ import { animate, spring } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.
     'Hallo',
     'Olá',
   ];
-  var PRELOADER_WORD_INTERVAL = 200;     /* ms between each word swap (machine-gun cadence) */
+  var PRELOADER_WORD_INTERVAL = 300;     /* ms between each word swap (machine-gun cadence) */
   var PRELOADER_LAST_WORD_HOLD = 65;     /* ms pause on final word before exit */
   var PRELOADER_EXIT = 0.32;             /* s curved reveal + sweep up */
   var PRELOADER_SPRING = { stiffness: 1800, damping: 55, mass: 0.25 };
