@@ -3,8 +3,28 @@
    Lenis smooth scroll + GSAP ScrollTrigger + custom cursor +
    hero load sequence + staggered reveals + sticky header
    ============================================================ */
+import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/motion@latest/+esm';
+
 (function () {
   'use strict';
+
+  /* ---------------- words preloader config ---------------- */
+  var PRELOADER_WORDS = [
+    'Hello',
+    'Namaste',
+    'Bonjour',
+    'Ciao',
+    'Hola',
+    'こんにちは',
+    'Hallo',
+    'Olá',
+  ];
+  var PRELOADER_WORD_HOLD = 150;         /* ms each word stays visible */
+  var PRELOADER_WORD_OUT = 0.05;         /* s fade-out before next word */
+  var PRELOADER_EXIT = 0.55;             /* s curved reveal + sweep up */
+  var PRELOADER_SPRING = { stiffness: 680, damping: 34, mass: 0.6 };
+  var PRELOADER_CURVE_START = 'M0,72 C360,0 1080,144 1440,72 L1440,120 L0,120 Z';
+  var PRELOADER_CURVE_END = 'M0,72 C360,72 1080,72 1440,72 L1440,120 L0,120 Z';
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -49,6 +69,119 @@
       });
     });
     return Array.prototype.slice.call(el.querySelectorAll('.split-word'));
+  }
+
+  /* ============================================================
+     WORDS PRELOADER — Motion One intro (skiper8-inspired)
+     ============================================================ */
+  function initWordsPreloader() {
+    return new Promise(function (resolve) {
+      var overlay = document.getElementById('words-preloader');
+      var panel = document.getElementById('words-preloader-panel');
+      var wordEl = document.getElementById('words-preloader-word');
+      var dotEl = document.getElementById('words-preloader-dot');
+      var pathEl = document.getElementById('words-preloader-path');
+      var timers = [];
+      var runningAnims = [];
+
+      function cleanup() {
+        timers.forEach(clearTimeout);
+        timers = [];
+        runningAnims.forEach(function (ctrl) {
+          if (ctrl && ctrl.cancel) ctrl.cancel();
+        });
+        runningAnims = [];
+        document.body.classList.remove('is-preloading');
+        if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        resolve();
+      }
+
+      function track(ctrl) {
+        if (ctrl && ctrl.cancel) runningAnims.push(ctrl);
+        return ctrl;
+      }
+
+      if (!overlay || !panel || !wordEl || !dotEl || !pathEl || prefersReducedMotion) {
+        cleanup();
+        return;
+      }
+
+      document.body.classList.add('is-preloading');
+      pathEl.setAttribute('d', PRELOADER_CURVE_END);
+
+      function runSequence() {
+        var wordIndex = 0;
+
+        function animateWordIn() {
+          track(animate(dotEl, { scale: [0.6, 1] }, { easing: spring(PRELOADER_SPRING) }));
+          return track(animate([dotEl, wordEl], {
+            opacity: [0, 1],
+            y: [18, 0],
+          }, {
+            easing: spring(PRELOADER_SPRING),
+            delay: stagger(0.04),
+          })).finished;
+        }
+
+        function animateWordOut() {
+          return track(animate([dotEl, wordEl], {
+            opacity: [1, 0],
+            y: [0, -10],
+          }, {
+            duration: PRELOADER_WORD_OUT,
+            easing: 'ease-in',
+            delay: stagger(0.03),
+          })).finished;
+        }
+
+        function showWord() {
+          if (wordIndex >= PRELOADER_WORDS.length) {
+            exitReveal();
+            return;
+          }
+
+          var isLast = wordIndex === PRELOADER_WORDS.length - 1;
+          wordEl.textContent = PRELOADER_WORDS[wordIndex];
+          wordEl.style.opacity = '0';
+          wordEl.style.transform = 'translateY(18px)';
+          dotEl.style.opacity = '0';
+          dotEl.style.transform = 'translateY(18px) scale(0.6)';
+
+          animateWordIn().then(function () {
+            var holdId = setTimeout(function () {
+              if (isLast) {
+                exitReveal();
+                return;
+              }
+              animateWordOut().then(function () {
+                wordIndex += 1;
+                showWord();
+              });
+            }, PRELOADER_WORD_HOLD);
+            timers.push(holdId);
+          });
+        }
+
+        function exitReveal() {
+          overlay.classList.add('is-exiting');
+          pathEl.setAttribute('d', PRELOADER_CURVE_START);
+
+          var exitEasing = [0.65, 0, 0.35, 1];
+          track(animate(pathEl, { d: [PRELOADER_CURVE_START, PRELOADER_CURVE_END] }, {
+            duration: PRELOADER_EXIT,
+            easing: exitEasing,
+          }));
+          track(animate(panel, { y: ['0%', '-105%'] }, {
+            duration: PRELOADER_EXIT,
+            easing: exitEasing,
+          })).finished.then(cleanup);
+        }
+
+        showWord();
+      }
+
+      runSequence();
+    });
   }
 
   /* ============================================================
@@ -765,28 +898,33 @@
   }
 
   /* ---------------- boot ---------------- */
- window.addEventListener('load', function () {
-   runHeroSequence();
-   initHeroZoom();
-   initWorkWheel();
-   initScrollReveals();
-   initHeaderScroll();
-   initSectionNav();
-   initThemeToggle();
-   initModal();
+  var pageBooted = false;
+
+  function bootPage() {
+    if (pageBooted) return;
+    pageBooted = true;
+    runHeroSequence();
+    initHeroZoom();
+    initWorkWheel();
+    initScrollReveals();
+    initHeaderScroll();
+    initSectionNav();
+  }
+
+  function bootAlways() {
+    initThemeToggle();
+    initModal();
+  }
+
+  initWordsPreloader().then(function () {
+    if (document.readyState === 'complete') {
+      bootPage();
+    } else {
+      window.addEventListener('load', bootPage, { once: true });
+    }
   });
 
-  // Fallback in case 'load' already fired or is slow
- if (document.readyState === 'complete') {
-   runHeroSequence();
-   initHeroZoom();
-   initWorkWheel();
-   initScrollReveals();
-   initHeaderScroll();
-   initSectionNav();
-   initThemeToggle();
-   initModal();
- }
+  bootAlways();
 
   /* ---------------- MODAL FUNCTIONALITY ---------------- */
  function initModal() {
