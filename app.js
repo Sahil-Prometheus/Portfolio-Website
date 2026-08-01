@@ -3,7 +3,7 @@
    Lenis smooth scroll + GSAP ScrollTrigger + custom cursor +
    hero load sequence + staggered reveals + sticky header
    ============================================================ */
-import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.18.0/+esm';
+import { animate, spring } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.18.0/+esm';
 
 (function () {
   'use strict';
@@ -19,12 +19,10 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
     'Hallo',
     'Olá',
   ];
-  var PRELOADER_WORD_HOLD = 50;          /* ms each word stays visible */
-  var PRELOADER_WORD_OUT = 0.02;         /* s fade-out before next word */
+  var PRELOADER_WORD_INTERVAL = 100;     /* ms between each word swap (machine-gun cadence) */
+  var PRELOADER_LAST_WORD_HOLD = 65;     /* ms pause on final word before exit */
   var PRELOADER_EXIT = 0.32;             /* s curved reveal + sweep up */
-  var PRELOADER_STAGGER_IN = 0.018;      /* s dot → word delay */
-  var PRELOADER_STAGGER_OUT = 0.012;     /* s dot → word delay on exit */
-  var PRELOADER_SPRING = { stiffness: 1100, damping: 42, mass: 0.38 };
+  var PRELOADER_SPRING = { stiffness: 1800, damping: 55, mass: 0.25 };
   var PRELOADER_CURVE_START = 'M0,72 C360,0 1080,144 1440,72 L1440,120 L0,120 Z';
   var PRELOADER_CURVE_END = 'M0,72 C360,72 1080,72 1440,72 L1440,120 L0,120 Z';
 
@@ -85,8 +83,17 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
       var pathEl = document.getElementById('words-preloader-path');
       var timers = [];
       var runningAnims = [];
+      var cadenceTimer = null;
+
+      function stopCadence() {
+        if (cadenceTimer) {
+          clearInterval(cadenceTimer);
+          cadenceTimer = null;
+        }
+      }
 
       function cleanup() {
+        stopCadence();
         timers.forEach(clearTimeout);
         timers = [];
         runningAnims.forEach(function (ctrl) {
@@ -113,58 +120,53 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
 
       function runSequence() {
         var wordIndex = 0;
+        var wordAnim = null;
+        var dotShown = false;
 
         function animateWordIn() {
-          track(animate(dotEl, { scale: [0.6, 1] }, { easing: spring(PRELOADER_SPRING) }));
-          return track(animate([dotEl, wordEl], {
+          if (wordAnim && wordAnim.cancel) wordAnim.cancel();
+          wordAnim = track(animate(wordEl, {
             opacity: [0, 1],
-            y: [8, 0],
+            y: [5, 0],
           }, {
             easing: spring(PRELOADER_SPRING),
-            delay: stagger(PRELOADER_STAGGER_IN),
-          })).finished;
+          }));
         }
 
-        function animateWordOut() {
-          return track(animate([dotEl, wordEl], {
-            opacity: [1, 0],
-            y: [0, -4],
+        function showDotOnce() {
+          if (dotShown) return;
+          dotShown = true;
+          dotEl.style.opacity = '0';
+          dotEl.style.transform = 'translateY(5px) scale(0.6)';
+          track(animate(dotEl, {
+            opacity: [0, 1],
+            y: [5, 0],
+            scale: [0.6, 1],
           }, {
-            duration: PRELOADER_WORD_OUT,
-            easing: 'ease-in',
-            delay: stagger(PRELOADER_STAGGER_OUT),
-          })).finished;
+            easing: spring(PRELOADER_SPRING),
+          }));
         }
 
-        function showWord() {
-          if (wordIndex >= PRELOADER_WORDS.length) {
-            exitReveal();
-            return;
-          }
-
-          var isLast = wordIndex === PRELOADER_WORDS.length - 1;
+        function fireWord() {
           wordEl.textContent = PRELOADER_WORDS[wordIndex];
           wordEl.style.opacity = '0';
-          wordEl.style.transform = 'translateY(8px)';
-          dotEl.style.opacity = '0';
-          dotEl.style.transform = 'translateY(8px) scale(0.6)';
+          wordEl.style.transform = 'translateY(5px)';
+          showDotOnce();
+          animateWordIn();
+          wordIndex += 1;
+        }
 
-          animateWordIn().then(function () {
-            var holdId = setTimeout(function () {
-              if (isLast) {
-                exitReveal();
-                return;
-              }
-              animateWordOut().then(function () {
-                wordIndex += 1;
-                showWord();
-              });
-            }, PRELOADER_WORD_HOLD);
-            timers.push(holdId);
-          });
+        function tick() {
+          if (wordIndex >= PRELOADER_WORDS.length) {
+            stopCadence();
+            timers.push(setTimeout(exitReveal, PRELOADER_LAST_WORD_HOLD));
+            return;
+          }
+          fireWord();
         }
 
         function exitReveal() {
+          stopCadence();
           overlay.classList.add('is-exiting');
           pathEl.setAttribute('d', PRELOADER_CURVE_START);
 
@@ -179,7 +181,9 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
           })).finished.then(cleanup);
         }
 
-        showWord();
+        fireWord();
+        cadenceTimer = setInterval(tick, PRELOADER_WORD_INTERVAL);
+        timers.push(cadenceTimer);
       }
 
       runSequence();
