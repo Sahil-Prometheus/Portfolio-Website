@@ -20,8 +20,8 @@ import { animate, spring } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.
     'Olá',
   ];
   var PRELOADER_WORD_INTERVAL = 250;     /* ms between each word swap (machine-gun cadence) */
-  var PRELOADER_LAST_WORD_HOLD = 65;     /* ms pause on final word before exit */
-  var PRELOADER_EXIT = 0.32;             /* s curved reveal + sweep up */
+  var PRELOADER_LAST_WORD_HOLD = 120;    /* ms pause on final word before exit */
+  var PRELOADER_EXIT = 0.85;             /* s curved reveal + sweep up */
   var PRELOADER_SPRING = { stiffness: 1800, damping: 55, mass: 0.25 };
   var PRELOADER_CURVE_START = 'M0,72 C360,0 1080,144 1440,72 L1440,120 L0,120 Z';
   var PRELOADER_CURVE_END = 'M0,72 C360,72 1080,72 1440,72 L1440,120 L0,120 Z';
@@ -170,7 +170,7 @@ import { animate, spring } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.
           overlay.classList.add('is-exiting');
           pathEl.setAttribute('d', PRELOADER_CURVE_START);
 
-          var exitEasing = [0.65, 0, 0.35, 1];
+          var exitEasing = [0.76, 0, 0.24, 1];
           track(animate(pathEl, { d: [PRELOADER_CURVE_START, PRELOADER_CURVE_END] }, {
             duration: PRELOADER_EXIT,
             easing: exitEasing,
