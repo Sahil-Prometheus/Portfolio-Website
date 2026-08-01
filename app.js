@@ -3,7 +3,7 @@
    Lenis smooth scroll + GSAP ScrollTrigger + custom cursor +
    hero load sequence + staggered reveals + sticky header
    ============================================================ */
-import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/motion@latest/+esm';
+import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionone/dom@10.18.0/+esm';
 
 (function () {
   'use strict';
