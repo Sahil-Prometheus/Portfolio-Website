@@ -19,10 +19,12 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
     'Hallo',
     'Olá',
   ];
-  var PRELOADER_WORD_HOLD = 150;         /* ms each word stays visible */
-  var PRELOADER_WORD_OUT = 0.05;         /* s fade-out before next word */
-  var PRELOADER_EXIT = 0.55;             /* s curved reveal + sweep up */
-  var PRELOADER_SPRING = { stiffness: 680, damping: 34, mass: 0.6 };
+  var PRELOADER_WORD_HOLD = 65;          /* ms each word stays visible */
+  var PRELOADER_WORD_OUT = 0.02;         /* s fade-out before next word */
+  var PRELOADER_EXIT = 0.32;             /* s curved reveal + sweep up */
+  var PRELOADER_STAGGER_IN = 0.018;      /* s dot → word delay */
+  var PRELOADER_STAGGER_OUT = 0.012;     /* s dot → word delay on exit */
+  var PRELOADER_SPRING = { stiffness: 1100, damping: 42, mass: 0.38 };
   var PRELOADER_CURVE_START = 'M0,72 C360,0 1080,144 1440,72 L1440,120 L0,120 Z';
   var PRELOADER_CURVE_END = 'M0,72 C360,72 1080,72 1440,72 L1440,120 L0,120 Z';
 
@@ -116,21 +118,21 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
           track(animate(dotEl, { scale: [0.6, 1] }, { easing: spring(PRELOADER_SPRING) }));
           return track(animate([dotEl, wordEl], {
             opacity: [0, 1],
-            y: [18, 0],
+            y: [8, 0],
           }, {
             easing: spring(PRELOADER_SPRING),
-            delay: stagger(0.04),
+            delay: stagger(PRELOADER_STAGGER_IN),
           })).finished;
         }
 
         function animateWordOut() {
           return track(animate([dotEl, wordEl], {
             opacity: [1, 0],
-            y: [0, -10],
+            y: [0, -4],
           }, {
             duration: PRELOADER_WORD_OUT,
             easing: 'ease-in',
-            delay: stagger(0.03),
+            delay: stagger(PRELOADER_STAGGER_OUT),
           })).finished;
         }
 
@@ -143,9 +145,9 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
           var isLast = wordIndex === PRELOADER_WORDS.length - 1;
           wordEl.textContent = PRELOADER_WORDS[wordIndex];
           wordEl.style.opacity = '0';
-          wordEl.style.transform = 'translateY(18px)';
+          wordEl.style.transform = 'translateY(8px)';
           dotEl.style.opacity = '0';
-          dotEl.style.transform = 'translateY(18px) scale(0.6)';
+          dotEl.style.transform = 'translateY(8px) scale(0.6)';
 
           animateWordIn().then(function () {
             var holdId = setTimeout(function () {
