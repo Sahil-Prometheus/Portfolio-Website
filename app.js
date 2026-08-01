@@ -19,7 +19,7 @@ import { animate, spring, stagger } from 'https://cdn.jsdelivr.net/npm/@motionon
     'Hallo',
     'Olá',
   ];
-  var PRELOADER_WORD_HOLD = 65;          /* ms each word stays visible */
+  var PRELOADER_WORD_HOLD = 50;          /* ms each word stays visible */
   var PRELOADER_WORD_OUT = 0.02;         /* s fade-out before next word */
   var PRELOADER_EXIT = 0.32;             /* s curved reveal + sweep up */
   var PRELOADER_STAGGER_IN = 0.018;      /* s dot → word delay */
